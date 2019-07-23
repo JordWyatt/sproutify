@@ -10,6 +10,7 @@ class Home extends Component {
             userInfo: {}
         };
     }
+
     componentDidMount() {
         const { location } = this.props;
         const { access_token } = queryString.parse(location.search);
@@ -18,7 +19,7 @@ class Home extends Component {
         spotifyApi.getMe().then(
             data => {
                 this.setState({
-                    userInfo: data.body
+                    user: data.body
                 });
             },
             err => {
@@ -30,7 +31,25 @@ class Home extends Component {
     render() {
         return (
             <div className="App">
-                <h1>Hello {this.state.userInfo.display_name || ""}</h1>
+                {this.state.user ? (
+                    <div>
+                        <h1>Hello {this.state.user.display_name || ""}</h1>
+                        {JSON.stringify(this.state.user)}
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => {
+                            window.location = "http://localhost:3333/login";
+                        }}
+                        style={{
+                            padding: "20px",
+                            "font-size": "50px",
+                            "margin-top": "20px"
+                        }}
+                    >
+                        Sign in with Spotify
+                    </button>
+                )}
             </div>
         );
     }
