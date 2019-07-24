@@ -12,34 +12,48 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        const { location } = this.props;
-        const { access_token } = queryString.parse(location.search);
-        if (!access_token) return;
-        spotifyApi.setAccessToken(access_token);
-        spotifyApi.getMe().then(
-            data => {
+        fetch("http://localhost:3333/auth/login/success", {
+            credentials: "include"
+        })
+            .then(response => {
+                console.log(response);
+                if (response.status === 200) return response.json();
+                throw new Error("failed to authenticate user");
+            })
+            .then(responseJson => {
                 this.setState({
-                    user: data.body
+                    authenticated: true,
+                    user: responseJson.user
                 });
-            },
-            err => {
-                console.log("Something went wrong!", err);
-            }
-        );
+            })
+            .catch(error => {
+                this.setState({
+                    authenticated: false,
+                    error: "Failed to authenticate user"
+                });
+            });
     }
 
     render() {
+        const { authenticated } = this.state;
         return (
             <div className="App">
-                {this.state.user ? (
+                {authenticated ? (
                     <div>
-                        <h1>Hello {this.state.user.display_name || ""}</h1>
-                        {JSON.stringify(this.state.user)}
+                        {!authenticated ? (
+                            <h1>Welcome!</h1>
+                        ) : (
+                            <div>
+                                <h1>You have logged in succcessfully!</h1>
+                                <h2>Welcome {this.state.user.name}!</h2>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <button
                         onClick={() => {
-                            window.location = "http://localhost:3333/login";
+                            window.location =
+                                "http://localhost:3333/auth/spotify";
                         }}
                         style={{
                             padding: "20px",

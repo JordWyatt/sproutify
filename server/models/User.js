@@ -6,13 +6,24 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        type: String,
-        required: true
+        type: String
     },
     spotifyId: {
         type: String,
         required: true,
         unique: true
+    },
+    accessToken: {
+        type: String,
+        required: true
+    },
+    accessTokenExpiry: {
+        type: Date,
+        required: true
+    },
+    refreshToken: {
+        type: String,
+        required: true
     }
 });
 
