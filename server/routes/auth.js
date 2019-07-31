@@ -8,6 +8,7 @@ const scope = [
   "playlist-read-private",
   "user-top-read"
 ];
+
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
 router.get("/spotify", passport.authenticate("spotify", { scope }));
@@ -38,5 +39,10 @@ router.get(
     failureRedirect: "/auth/login/failed"
   })
 );
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect(CLIENT_HOME_PAGE_URL);
+});
 
 module.exports = router;

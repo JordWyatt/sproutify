@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Header from "../Header/Header";
+import { Container } from "@material-ui/core";
 
 class Home extends Component {
   constructor(props) {
@@ -12,11 +14,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3333/auth/login/success", {
+    fetch(`${process.env.REACT_APP_PROXY_URL}/auth/login/success`, {
       credentials: "include"
     })
       .then(response => {
-        console.log(response);
         if (response.status === 200) return response.json();
         throw new Error("failed to authenticate user");
       })
@@ -35,7 +36,7 @@ class Home extends Component {
   }
 
   getTopArtists() {
-    fetch("http://localhost:3333/spotify/topArtists", {
+    fetch(`${process.env.REACT_APP_PROXY_URL}/spotify/topArtists`, {
       credentials: "include"
     })
       .then(response => response.json())
@@ -43,38 +44,12 @@ class Home extends Component {
   }
 
   render() {
-    const { authenticated } = this.state;
     return (
       <div className="App">
-        {authenticated ? (
-          <div>
-            {!authenticated ? (
-              <h1>Welcome!</h1>
-            ) : (
-              <div>
-                <h1>You have logged in succcessfully!</h1>
-                <h2>Welcome {this.state.user.name}!</h2>
-                <button onClick={() => this.getTopArtists()}>
-                  Get Top Artists
-                </button>
-                <div>{JSON.stringify(this.state.content)}</div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <button
-            onClick={() => {
-              window.location = "http://localhost:3333/auth/spotify";
-            }}
-            style={{
-              padding: "20px",
-              "font-size": "50px",
-              "margin-top": "20px"
-            }}
-          >
-            Sign in with Spotify
-          </button>
-        )}
+        <Header user={this.state.user} />
+        <Container maxWidth="sm">
+          <div>{this.state.user && this.state.user.name}</div>
+        </Container>
       </div>
     );
   }
