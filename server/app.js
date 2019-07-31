@@ -21,6 +21,9 @@ app.use(
   })
 );
 
+// body parser
+app.use(express.urlencoded({ extended: false }));
+
 // set up cors to allow us to accept requests from our client
 app.use(
   cors({

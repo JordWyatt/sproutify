@@ -8,13 +8,47 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET
 });
 
-const setAccessToken = req => {
-  const { accessToken } = req.user;
-  spotifyApi.setAccessToken(accessToken);
+const setAccessToken = (req, res, next) => {
+  if (req.user) {
+    const { accessToken } = req.user;
+    spotifyApi.setAccessToken(accessToken);
+    next();
+  } else {
+    res.status(401).send("Please provide a valid access token");
+  }
 };
 
+router.use(setAccessToken);
+
+router.get("/searchTrack", (req, res) => {
+  const { q } = req.query;
+  if (!q) {
+    res.status(400).send("Please provide a search term");
+  }
+  spotifyApi
+    .searchTracks(q)
+    .then(data => {
+      const { tracks } = data.body;
+      res.send(tracks);
+    })
+    .catch(e => console.log(e));
+});
+
+router.get("/searchArtist", (req, res) => {
+  const { q } = req.query;
+  if (!q) {
+    res.status(400).send("Please provide a search term");
+  }
+  spotifyApi
+    .searchArtists(q)
+    .then(data => {
+      const { artists } = data.body;
+      res.send(artists);
+    })
+    .catch(e => console.log(e));
+});
+
 router.get("/topArtists", (req, res) => {
-  setAccessToken(req);
   spotifyApi
     .getMyTopArtists()
     .then(data => {

@@ -1,6 +1,5 @@
 const express = require("express");
 const passport = require("passport");
-const SpotifyWebApi = require("spotify-web-api-node");
 const router = express.Router();
 const scope = [
   "user-read-private",
