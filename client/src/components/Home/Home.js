@@ -27,7 +27,8 @@ class Home extends Component {
           user: responseJson.user
         });
       })
-      .catch(error => {
+      .catch(e => {
+        console.error(e);
         this.setState({
           authenticated: false,
           error: "Failed to authenticate user"

@@ -1,31 +1,32 @@
 {
-    "name": "backend",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "node app.js",
-        "backend": "nodemon app.js",
-        "frontend": "npm run start --prefix ../client",
-        "dev": "concurrently \"npm run backend\" \"npm run frontend\""
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "cors": "^2.8.5",
-        "express": "^4.17.1",
-        "express-session": "^1.16.2",
-        "mongoose": "^5.6.5",
-        "passport": "^0.4.0",
-        "passport-spotify": "^1.0.1",
-        "spotify-web-api-node": "^4.0.0"
-    },
-    "devDependencies": {
-        "concurrently": "^4.1.1",
-        "eslint-config-prettier": "^6.0.0",
-        "eslint-plugin-prettier": "^3.1.0",
-        "nodemon": "^1.19.1",
-        "prettier": "^1.18.2"
-    }
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "backend": "nodemon app.js",
+    "frontend": "npm run start --prefix ../client",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "mongoose": "^5.6.5",
+    "passport": "^0.4.0",
+    "passport-spotify": "^1.0.1",
+    "spotify-web-api-node": "^4.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "eslint": "5.16.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2"
+  }
 }
