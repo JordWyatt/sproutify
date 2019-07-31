@@ -1,16 +1,15 @@
 {
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+    "plugins": ["prettier"],
     "env": {
-        "node": true,
-        "commonjs": true,
-        "es6": true
-    },
-    "extends": "eslint:recommended",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "jasmine": true,
+        "jest": true,
+        "node": true
     },
     "parserOptions": {
         "ecmaVersion": 2018
     },
-    "rules": {}
+    "rules": {
+        "prettier/prettier": ["error", { "singleQuote": false }]
+    }
 }
