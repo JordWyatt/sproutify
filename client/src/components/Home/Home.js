@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Header from "../Header/Header";
+import Search from "../Search/Search";
 import { Container } from "@material-ui/core";
+import tracks from "../../mock_data/tracks";
 
 class Home extends Component {
   constructor(props) {
@@ -10,7 +12,7 @@ class Home extends Component {
       content: "No Content"
     };
 
-    this.getTopArtists = this.getTopArtists.bind(this);
+    // this.getTopArtists = this.getTopArtists.bind(this);
   }
 
   componentDidMount() {
@@ -36,20 +38,20 @@ class Home extends Component {
       });
   }
 
-  getTopArtists() {
-    fetch(`${process.env.REACT_APP_PROXY_URL}/spotify/topArtists`, {
-      credentials: "include"
-    })
-      .then(response => response.json())
-      .then(json => this.setState({ content: json }));
-  }
+  // getTopArtists() {
+  //   fetch(`${process.env.REACT_APP_PROXY_URL}/spotify/topArtists`, {
+  //     credentials: "include"
+  //   })
+  //     .then(response => response.json())
+  //     .then(json => this.setState({ content: json }));
+  // }
 
   render() {
     return (
       <div className="App">
         <Header user={this.state.user} />
-        <Container maxWidth="sm">
-          <div>{this.state.user && this.state.user.name}</div>
+        <Container maxWidth="md">
+          <Search tracks={tracks}></Search>
         </Container>
       </div>
     );
