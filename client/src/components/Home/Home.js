@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "../Header/Header";
 import Search from "../Search/Search";
 import { Container } from "@material-ui/core";
+import { searchTransform } from "../../utils";
 // import tracks from "../../mock_data/tracks";
 
 const searchTypes = [
@@ -35,6 +36,7 @@ class Home extends Component {
 
   onSearchChange(value) {
     const { endpoint: searchEndpoint } = this.state.selectedSearchType;
+
     if (value) {
       fetch(
         `${
@@ -44,7 +46,10 @@ class Home extends Component {
       )
         .then(response => response.json())
         .then(searchResults =>
-          this.setState({ searchResults, searchValue: value })
+          this.setState({
+            searchResults: searchTransform(searchResults),
+            searchValue: value
+          })
         );
     }
   }

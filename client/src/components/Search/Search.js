@@ -6,7 +6,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -53,14 +52,12 @@ export default class Search extends Component {
 
   makeListItem(item) {
     // TODO - Make a nice function for this
-    const imgUrl =
-      item.type === "track" ? item.album.images[2].url : item.images[2].url;
     return (
       <ListItem button>
         <ListItemAvatar>
-          <Avatar style={styles.avatar} src={imgUrl} />
+          <Avatar style={styles.avatar} src={item.imageUrl} />
         </ListItemAvatar>
-        <ListItemText primary={item.name} />
+        <ListItemText primary={item.label} />
       </ListItem>
     );
   }
