@@ -2,17 +2,60 @@ import React, { Component } from "react";
 import Header from "../Header/Header";
 import Search from "../Search/Search";
 import { Container } from "@material-ui/core";
-import tracks from "../../mock_data/tracks";
+// import tracks from "../../mock_data/tracks";
+
+const searchTypes = [
+  {
+    value: "tracks",
+    label: "Tracks",
+    endpoint: "searchTracks"
+  },
+  {
+    value: "artists",
+    label: "Artists",
+    endpoint: "searchArtists"
+  }
+];
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userInfo: {},
-      content: "No Content"
+      searchResults: [],
+      selectedSearchType: searchTypes[0],
+      content: "No Content",
+      searchValue: ""
     };
 
     // this.getTopArtists = this.getTopArtists.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
+    this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
+  }
+
+  onSearchChange(value) {
+    const { endpoint: searchEndpoint } = this.state.selectedSearchType;
+    if (value) {
+      fetch(
+        `${
+          process.env.REACT_APP_PROXY_URL
+        }/spotify/${searchEndpoint}?q=${encodeURI(value)}`,
+        { credentials: "include" }
+      )
+        .then(response => response.json())
+        .then(searchResults =>
+          this.setState({ searchResults, searchValue: value })
+        );
+    }
+  }
+
+  onSearchTypeChange(e) {
+    const selectedSearchType = searchTypes.find(
+      type => type.value === e.target.value
+    );
+    this.setState({ selectedSearchType }, () =>
+      this.onSearchChange(this.state.searchValue)
+    );
   }
 
   componentDidMount() {
@@ -47,11 +90,19 @@ class Home extends Component {
   // }
 
   render() {
+    const { searchResults, selectedSearchType, searchValue } = this.state;
     return (
       <div className="App">
         <Header user={this.state.user} />
         <Container maxWidth="md">
-          <Search tracks={tracks}></Search>
+          <Search
+            value={searchValue}
+            results={searchResults}
+            onChange={this.onSearchChange}
+            selectedSearchType={selectedSearchType}
+            searchTypes={searchTypes}
+            onSearchTypeChange={this.onSearchTypeChange}
+          ></Search>
         </Container>
       </div>
     );

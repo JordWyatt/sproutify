@@ -20,30 +20,30 @@ const setAccessToken = (req, res, next) => {
 
 router.use(setAccessToken);
 
-router.get("/searchTrack", (req, res) => {
+router.get("/searchTracks", (req, res) => {
   const { q } = req.query;
   if (!q) {
     res.status(400).send("Please provide a search term");
   }
   spotifyApi
-    .searchTracks(q)
+    .searchTracks(q, { limit: 10 })
     .then(data => {
-      const { tracks } = data.body;
-      res.send(tracks);
+      const tracks = data.body.tracks.items;
+      res.json(tracks);
     })
     .catch(e => console.log(e));
 });
 
-router.get("/searchArtist", (req, res) => {
+router.get("/searchArtists", (req, res) => {
   const { q } = req.query;
   if (!q) {
     res.status(400).send("Please provide a search term");
   }
   spotifyApi
-    .searchArtists(q)
+    .searchArtists(q, { limit: 10 })
     .then(data => {
-      const { artists } = data.body;
-      res.send(artists);
+      const artists = data.body.artists.items;
+      res.json(artists);
     })
     .catch(e => console.log(e));
 });
