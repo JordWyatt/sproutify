@@ -3,7 +3,8 @@ import PropTypes, { object } from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Select from "@material-ui/core/Select";
@@ -17,6 +18,11 @@ const styles = {
   },
   select: {
     paddingTop: "32px"
+  },
+  avatar: {
+    margin: 10,
+    width: 60,
+    height: 60
   }
 };
 export default class Search extends Component {
@@ -46,8 +52,14 @@ export default class Search extends Component {
   }
 
   makeListItem(item) {
+    // TODO - Make a nice function for this
+    const imgUrl =
+      item.type === "track" ? item.album.images[2].url : item.images[2].url;
     return (
       <ListItem button>
+        <ListItemAvatar>
+          <Avatar style={styles.avatar} src={imgUrl} />
+        </ListItemAvatar>
         <ListItemText primary={item.name} />
       </ListItem>
     );
@@ -56,12 +68,13 @@ export default class Search extends Component {
   render() {
     const { results, searchTypes, selectedSearchType } = this.props;
     return (
-      <div>
+      <div
+        onFocus={() => this.setState({ showResults: true })}
+        onBlur={() => this.setState({ showResults: false })}
+      >
         <div style={styles.inputWrapper}>
           <TextField
             fullWidth="true"
-            onFocus={() => this.setState({ showResults: true })}
-            onBlur={() => this.setState({ showResults: false })}
             value={this.state.value}
             label={`Search ${selectedSearchType.label}`}
             margin="normal"
