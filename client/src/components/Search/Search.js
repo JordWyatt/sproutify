@@ -17,11 +17,6 @@ const styles = {
   },
   select: {
     paddingTop: "32px"
-  },
-  avatar: {
-    margin: 10,
-    width: 60,
-    height: 60
   }
 };
 export default class Search extends Component {
@@ -53,9 +48,9 @@ export default class Search extends Component {
   makeListItem(item) {
     // TODO - Make a nice function for this
     return (
-      <ListItem button>
+      <ListItem button dense>
         <ListItemAvatar>
-          <Avatar style={styles.avatar} src={item.imageUrl} />
+          <Avatar style={styles} src={item.imageUrl} />
         </ListItemAvatar>
         <ListItemText primary={item.label} />
       </ListItem>
@@ -91,7 +86,7 @@ export default class Search extends Component {
           </div>
         </div>
         {this.state.showResults && (
-          <List component="nav">
+          <List dense>
             {results && results.map(result => this.makeListItem(result))}
           </List>
         )}
