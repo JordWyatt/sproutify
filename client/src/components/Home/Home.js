@@ -1,16 +1,73 @@
 import React, { Component } from "react";
 import Header from "../Header/Header";
+import Search from "../Search/Search";
 import { Container } from "@material-ui/core";
+import { searchTransform } from "../../utils";
+
+const searchTypes = [
+  {
+    value: "tracks",
+    label: "Tracks",
+    endpoint: "searchTracks"
+  },
+  {
+    value: "artists",
+    label: "Artists",
+    endpoint: "searchArtists"
+  }
+];
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: {},
-      content: "No Content"
+      selectedItems: [],
+      searchResults: [],
+      selectedSearchType: searchTypes[0],
+      searchValue: ""
     };
 
-    this.getTopArtists = this.getTopArtists.bind(this);
+    // this.getTopArtists = this.getTopArtists.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
+    this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
+    this.onSearchResultClick = this.onSearchResultClick.bind(this);
+  }
+
+  onSearchChange(value) {
+    const { endpoint: searchEndpoint } = this.state.selectedSearchType;
+
+    if (value) {
+      fetch(
+        `${
+          process.env.REACT_APP_PROXY_URL
+        }/spotify/${searchEndpoint}?q=${encodeURI(value)}`,
+        { credentials: "include" }
+      )
+        .then(response => response.json())
+        .then(searchResults =>
+          this.setState({
+            searchResults: searchTransform(searchResults),
+            searchValue: value
+          })
+        );
+    }
+  }
+
+  onSearchTypeChange(e) {
+    const selectedSearchType = searchTypes.find(
+      type => type.value === e.target.value
+    );
+    this.setState({ selectedSearchType }, () =>
+      this.onSearchChange(this.state.searchValue)
+    );
+  }
+
+  onSearchResultClick(item) {
+    const { selectedItems } = this.state;
+    // TODO: Add 5 item limit
+    this.setState({
+      selectedItems: [...selectedItems, item]
+    });
   }
 
   componentDidMount() {
@@ -36,20 +93,30 @@ class Home extends Component {
       });
   }
 
-  getTopArtists() {
-    fetch(`${process.env.REACT_APP_PROXY_URL}/spotify/topArtists`, {
-      credentials: "include"
-    })
-      .then(response => response.json())
-      .then(json => this.setState({ content: json }));
-  }
+  // getTopArtists() {
+  //   fetch(`${process.env.REACT_APP_PROXY_URL}/spotify/topArtists`, {
+  //     credentials: "include"
+  //   })
+  //     .then(response => response.json())
+  //     .then(json => this.setState({ content: json }));
+  // }
 
   render() {
+    const { searchResults, selectedSearchType, searchValue } = this.state;
     return (
       <div className="App">
         <Header user={this.state.user} />
-        <Container maxWidth="sm">
-          <div>{this.state.user && this.state.user.name}</div>
+        <Container maxWidth="md">
+          <Search
+            value={searchValue}
+            results={searchResults}
+            onChange={this.onSearchChange}
+            onSearchResultClick={this.onSearchResultClick}
+            selectedSearchType={selectedSearchType}
+            searchTypes={searchTypes}
+            onSearchTypeChange={this.onSearchTypeChange}
+          ></Search>
+          {JSON.stringify(this.state.selectedItems)}
         </Container>
       </div>
     );
