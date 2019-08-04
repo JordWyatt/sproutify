@@ -66,8 +66,10 @@ class Home extends Component {
   }
 
   onSearchResultClick(item) {
+    const { selectedItems } = this.state;
+    // TODO: Add 5 item limit
     this.setState({
-      selectedItems: [...this.state.selectedItems, item]
+      selectedItems: [...selectedItems, item]
     });
   }
 
@@ -117,6 +119,7 @@ class Home extends Component {
             searchTypes={searchTypes}
             onSearchTypeChange={this.onSearchTypeChange}
           ></Search>
+          {JSON.stringify(this.state.selectedItems)}
         </Container>
       </div>
     );
