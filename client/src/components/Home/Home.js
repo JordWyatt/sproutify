@@ -21,11 +21,9 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: {},
       selectedItems: [],
       searchResults: [],
       selectedSearchType: searchTypes[0],
-      content: "No Content",
       searchValue: ""
     };
 
