@@ -25,13 +25,15 @@ export default class Search extends Component {
 
     this.state = {
       value: "",
-      hideResults: true
+      showResults: true
     };
 
     this.timer = null;
     this.triggerChange = this.triggerChange.bind(this);
     this.makeListItem = this.makeListItem.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.focusHandler = this.focusHandler.bind(this);
+    this.blurHandler = this.blurHandler.bind(this);
   }
 
   handleChange(e) {
@@ -45,25 +47,42 @@ export default class Search extends Component {
     this.props.onChange(value);
   }
 
+  blurHandler(e) {
+    const currentTarget = e.currentTarget;
+    // new element isn't focused as the blur event happens, so this will report body. Set timeout to avoid this
+    setTimeout(() => {
+      if (!currentTarget.contains(document.activeElement)) {
+        this.setState({ showResults: false });
+      }
+    }, 0);
+  }
+
+  focusHandler() {
+    this.setState({ showResults: true });
+  }
+
+  resultClickHandler(item) {
+    this.props.onSearchResultClick(item);
+    this.setState({ showResults: false });
+  }
+
   makeListItem(item) {
-    // TODO - Make a nice function for this
     return (
-      <ListItem button dense>
-        <ListItemAvatar>
-          <Avatar style={styles} src={item.imageUrl} />
-        </ListItemAvatar>
-        <ListItemText primary={item.label} />
-      </ListItem>
+      <div>
+        <ListItem button dense onClick={() => this.resultClickHandler(item)}>
+          <ListItemAvatar>
+            <Avatar style={styles.avatar} src={item.imageUrl} />
+          </ListItemAvatar>
+          <ListItemText primary={item.label} />
+        </ListItem>
+      </div>
     );
   }
 
   render() {
     const { results, searchTypes, selectedSearchType } = this.props;
     return (
-      <div
-        onFocus={() => this.setState({ showResults: true })}
-        onBlur={() => this.setState({ showResults: false })}
-      >
+      <div onBlur={this.blurHandler}>
         <div style={styles.inputWrapper}>
           <TextField
             fullWidth="true"
@@ -71,6 +90,7 @@ export default class Search extends Component {
             label={`Search ${selectedSearchType.label}`}
             margin="normal"
             onChange={this.handleChange}
+            onFocus={this.focusHandler}
           />
           <div style={styles.select}>
             <Select
@@ -98,5 +118,6 @@ export default class Search extends Component {
 Search.propTypes = {
   items: PropTypes.arrayOf(object),
   onSearchTypeChange: PropTypes.func,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onSearchResultClick: PropTypes.func
 };

@@ -23,6 +23,7 @@ class Home extends Component {
     super(props);
     this.state = {
       userInfo: {},
+      selectedItems: [],
       searchResults: [],
       selectedSearchType: searchTypes[0],
       content: "No Content",
@@ -32,6 +33,7 @@ class Home extends Component {
     // this.getTopArtists = this.getTopArtists.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
+    this.onSearchResultClick = this.onSearchResultClick.bind(this);
   }
 
   onSearchChange(value) {
@@ -61,6 +63,12 @@ class Home extends Component {
     this.setState({ selectedSearchType }, () =>
       this.onSearchChange(this.state.searchValue)
     );
+  }
+
+  onSearchResultClick(item) {
+    this.setState({
+      selectedItems: [...this.state.selectedItems, item]
+    });
   }
 
   componentDidMount() {
@@ -104,6 +112,7 @@ class Home extends Component {
             value={searchValue}
             results={searchResults}
             onChange={this.onSearchChange}
+            onSearchResultClick={this.onSearchResultClick}
             selectedSearchType={selectedSearchType}
             searchTypes={searchTypes}
             onSearchTypeChange={this.onSearchTypeChange}
