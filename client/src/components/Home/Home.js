@@ -3,7 +3,6 @@ import Header from "../Header/Header";
 import Search from "../Search/Search";
 import { Container } from "@material-ui/core";
 import { searchTransform } from "../../utils";
-// import tracks from "../../mock_data/tracks";
 
 const searchTypes = [
   {
