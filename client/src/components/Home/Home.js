@@ -78,7 +78,6 @@ class Home extends Component {
   }
 
   onRemoveSelection(item) {
-    console.log("remove item: ", item.id);
     const selectedItems = this.state.selectedItems.filter(
       x => x.id !== item.id
     );
