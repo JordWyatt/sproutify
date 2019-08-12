@@ -109,20 +109,12 @@ class Home extends Component {
       });
   }
 
-  // getTopArtists() {
-  //   fetch(`${process.env.REACT_APP_PROXY_URL}/spotify/topArtists`, {
-  //     credentials: "include"
-  //   })
-  //     .then(response => response.json())
-  //     .then(json => this.setState({ content: json }));
-  // }
-
   render() {
     const { searchResults, selectedSearchType, searchValue } = this.state;
     return (
       <div className="App">
         <Header user={this.state.user} />
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Search
             value={searchValue}
             results={searchResults}
