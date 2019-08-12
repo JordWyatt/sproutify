@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes, { object } from "prop-types";
+import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -116,8 +116,11 @@ export default class Search extends Component {
 }
 
 Search.propTypes = {
-  items: PropTypes.arrayOf(object),
+  items: PropTypes.arrayOf(PropTypes.object),
   onSearchTypeChange: PropTypes.func,
   onChange: PropTypes.func,
-  onSearchResultClick: PropTypes.func
+  onSearchResultClick: PropTypes.func,
+  results: PropTypes.arrayOf(PropTypes.object),
+  searchTypes: PropTypes.arrayOf(PropTypes.object),
+  selectedSearchType: PropTypes.object
 };
