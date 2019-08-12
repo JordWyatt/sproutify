@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import Header from "../Header/Header";
 import Search from "../Search/Search";
+import Selections from "../Selections/Selections";
 import { Container } from "@material-ui/core";
 import { searchTransform } from "../../utils";
 
-const searchTypes = [
+const SEARCH_TYPES = [
   {
     value: "tracks",
     label: "Tracks",
@@ -17,13 +18,15 @@ const searchTypes = [
   }
 ];
 
+const MAX_SELECTIONS = 5;
+
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedItems: [],
       searchResults: [],
-      selectedSearchType: searchTypes[0],
+      selectedSearchType: SEARCH_TYPES[0],
       searchValue: ""
     };
 
@@ -31,6 +34,7 @@ class Home extends Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
     this.onSearchResultClick = this.onSearchResultClick.bind(this);
+    this.onRemoveSelection = this.onRemoveSelection.bind(this);
   }
 
   onSearchChange(value) {
@@ -54,7 +58,7 @@ class Home extends Component {
   }
 
   onSearchTypeChange(e) {
-    const selectedSearchType = searchTypes.find(
+    const selectedSearchType = SEARCH_TYPES.find(
       type => type.value === e.target.value
     );
     this.setState({ selectedSearchType }, () =>
@@ -64,9 +68,21 @@ class Home extends Component {
 
   onSearchResultClick(item) {
     const { selectedItems } = this.state;
-    // TODO: Add 5 item limit
+    const itemExists = selectedItems.map(x => x.id).includes(item.id);
+
+    if (!itemExists && selectedItems.length < MAX_SELECTIONS) {
+      this.setState({
+        selectedItems: [...selectedItems, item]
+      });
+    }
+  }
+
+  onRemoveSelection(item) {
+    const selectedItems = this.state.selectedItems.filter(
+      x => x.id !== item.id
+    );
     this.setState({
-      selectedItems: [...selectedItems, item]
+      selectedItems
     });
   }
 
@@ -93,30 +109,25 @@ class Home extends Component {
       });
   }
 
-  // getTopArtists() {
-  //   fetch(`${process.env.REACT_APP_PROXY_URL}/spotify/topArtists`, {
-  //     credentials: "include"
-  //   })
-  //     .then(response => response.json())
-  //     .then(json => this.setState({ content: json }));
-  // }
-
   render() {
     const { searchResults, selectedSearchType, searchValue } = this.state;
     return (
       <div className="App">
         <Header user={this.state.user} />
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Search
             value={searchValue}
             results={searchResults}
             onChange={this.onSearchChange}
             onSearchResultClick={this.onSearchResultClick}
             selectedSearchType={selectedSearchType}
-            searchTypes={searchTypes}
+            searchTypes={SEARCH_TYPES}
             onSearchTypeChange={this.onSearchTypeChange}
           ></Search>
-          {JSON.stringify(this.state.selectedItems)}
+          <Selections
+            selections={this.state.selectedItems}
+            handleDelete={this.onRemoveSelection}
+          />
         </Container>
       </div>
     );
