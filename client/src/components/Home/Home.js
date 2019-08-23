@@ -31,7 +31,6 @@ class Home extends Component {
       searchValue: ""
     };
 
-    // this.getTopArtists = this.getTopArtists.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
     this.onSearchResultClick = this.onSearchResultClick.bind(this);

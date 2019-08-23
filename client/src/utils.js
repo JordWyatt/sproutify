@@ -1,8 +1,9 @@
 import { get } from "lodash";
 
-const getImageUrl = x => {
-  const images = x.type === "track" ? get(x, "album.images") : get(x, "images");
-  const image = images.filter(image => image.height === 300)[0];
+export const getImageUrl = (item, size = 64) => {
+  const images =
+    item.type === "track" ? get(item, "album.images") : get(item, "images");
+  const image = images.filter(image => image.height === size)[0];
   return image.url;
 };
 
@@ -24,5 +25,5 @@ export const trackTransform = track => ({
   id: track.id,
   name: track.name,
   artists: track.artists,
-  imageUrl: getImageUrl(track)
+  imageUrl: getImageUrl(track, 300)
 });

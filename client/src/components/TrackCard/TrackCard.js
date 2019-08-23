@@ -11,9 +11,12 @@ const TrackCard = props => {
     <Card style={{ position: "fixed" }}>
       <CardActionArea>
         <CardMedia component="img" image={track.imageUrl} title={track.name} />
-        <CardContent>
+        <CardContent style={{ width: 256 }}>
           <Typography gutterBottom variant="h5" component="h2">
             {track.name}
+          </Typography>
+          <Typography variant="h6">
+            {track.artists.map(x => x.name).join(", ")}
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -1,13 +1,14 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-
+import { getImageUrl } from "../../utils";
 const CoverGrid = props => (
   <Grid container spacing={1}>
     {props.items.map(x => {
-      const imageUrl = (x.album.images && x.album.images[1].url) || "";
+      const imageUrl = getImageUrl(x);
       return (
         <Grid item>
           <img
+            key={imageUrl}
             alt=""
             src={imageUrl}
             onMouseOver={() => props.onMouseOver(x)}
