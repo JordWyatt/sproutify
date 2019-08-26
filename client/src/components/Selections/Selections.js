@@ -7,7 +7,8 @@ const styles = {
   chip: { marginLeft: "2.5px", marginRight: "2.5px" },
   container: {
     display: "flex",
-    justifyContent: "center"
+    paddingTop: "10px",
+    paddingBottom: "10px"
   }
 };
 

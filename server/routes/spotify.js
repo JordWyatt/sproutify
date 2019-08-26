@@ -49,9 +49,9 @@ router.get("/searchArtists", (req, res) => {
 });
 
 router.get("/recommendations", (req, res) => {
-  const { seed_artists, seed_tracks } = req.query;
+  const { seed_artists, seed_tracks, limit } = req.query;
   spotifyApi
-    .getRecommendations({ seed_artists, seed_tracks })
+    .getRecommendations({ seed_artists, seed_tracks, limit: limit || 50 })
     .then(data => {
       const { tracks } = data.body;
       res.send(tracks);
