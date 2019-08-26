@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container } from "@material-ui/core";
-import { searchTransform } from "../../utils";
+import { searchTransform, trackTransform, loadAudio } from "../../utils";
 import Header from "../Header/Header";
 import Search from "../Search/Search";
 import Selections from "../Selections/Selections";
@@ -25,16 +25,21 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedItems: [],
+      selectedTrack: {},
+      playing: false,
+      seedItems: [],
       searchResults: [],
       selectedSearchType: SEARCH_TYPES[0],
-      searchValue: ""
+      searchValue: "",
+      audio: null
     };
 
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchTypeChange = this.onSearchTypeChange.bind(this);
     this.onSearchResultClick = this.onSearchResultClick.bind(this);
     this.onRemoveSelection = this.onRemoveSelection.bind(this);
+    this.onMouseOutTrack = this.onMouseOutTrack.bind(this);
+    this.onMouseOverTrack = this.onMouseOverTrack.bind(this);
   }
 
   onSearchChange(value) {
@@ -67,22 +72,20 @@ class Home extends Component {
   }
 
   onSearchResultClick(item) {
-    const { selectedItems } = this.state;
-    const itemExists = selectedItems.map(x => x.id).includes(item.id);
+    const { seedItems } = this.state;
+    const itemExists = seedItems.map(x => x.id).includes(item.id);
 
-    if (!itemExists && selectedItems.length < MAX_SELECTIONS) {
+    if (!itemExists && seedItems.length < MAX_SELECTIONS) {
       this.setState({
-        selectedItems: [...selectedItems, item]
+        seedItems: [...seedItems, item]
       });
     }
   }
 
   onRemoveSelection(item) {
-    const selectedItems = this.state.selectedItems.filter(
-      x => x.id !== item.id
-    );
+    const seedItems = this.state.seedItems.filter(x => x.id !== item.id);
     this.setState({
-      selectedItems
+      seedItems
     });
   }
 
@@ -101,12 +104,36 @@ class Home extends Component {
         });
       })
       .catch(e => {
-        console.error(e);
         this.setState({
           authenticated: false,
           error: "Failed to authenticate user"
         });
       });
+  }
+
+  onMouseOverTrack(selectedTrack) {
+    const { selectedTrack: existingSelectedTrack } = this.state;
+    if (selectedTrack.id !== existingSelectedTrack.id) {
+      this.setState({
+        selectedTrack: trackTransform(selectedTrack),
+        playing: true,
+        audio: loadAudio(selectedTrack.preview_url)
+      });
+    } else {
+      this.setState({ playing: true });
+    }
+  }
+
+  onMouseOutTrack() {
+    this.setState({ playing: false, selectedTrack: {} });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.state.playing && prevState.playing) {
+      this.state.audio.pause();
+    } else if (this.state.playing && this.state.selectedTrack) {
+      this.state.audio.play();
+    }
   }
 
   render() {
@@ -125,10 +152,15 @@ class Home extends Component {
             onSearchTypeChange={this.onSearchTypeChange}
           ></Search>
           <Selections
-            selections={this.state.selectedItems}
+            selections={this.state.seedItems}
             handleDelete={this.onRemoveSelection}
           />
-          <Explorer items={mockRecommendations.tracks} />
+          <Explorer
+            items={mockRecommendations.tracks}
+            selectedTrack={this.state.selectedTrack}
+            onMouseOver={this.onMouseOverTrack}
+            onMouseOut={this.onMouseOutTrack}
+          />
         </Container>
       </div>
     );

@@ -1,5 +1,11 @@
 import { get } from "lodash";
 
+export const loadAudio = (url = "") => {
+  const audio = new Audio(url);
+  audio.type = "audio/wav";
+  return audio;
+};
+
 export const getImageUrl = (item, size = 64) => {
   const images =
     item.type === "track" ? get(item, "album.images") : get(item, "images");
