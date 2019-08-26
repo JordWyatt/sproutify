@@ -48,12 +48,13 @@ router.get("/searchArtists", (req, res) => {
     .catch(e => console.log(e));
 });
 
-router.get("/topArtists", (req, res) => {
+router.get("/recommendations", (req, res) => {
+  const { seed_artists, seed_tracks } = req.query;
   spotifyApi
-    .getMyTopArtists()
+    .getRecommendations({ seed_artists, seed_tracks })
     .then(data => {
-      const { items } = data.body;
-      res.send(items.map(x => x.name));
+      const { tracks } = data.body;
+      res.send(tracks);
     })
     .catch(e => console.log(e));
 });
