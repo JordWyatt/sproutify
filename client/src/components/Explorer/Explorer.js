@@ -3,8 +3,13 @@ import CoverGrid from "../CoverGrid/CoverGrid";
 import TrackCard from "../TrackCard/TrackCard";
 import Grid from "@material-ui/core/Grid";
 
+const styles = {
+  container: {
+    paddingTop: "7.5px"
+  }
+};
 const Explorer = props => (
-  <div>
+  <div style={styles.container}>
     <Grid container>
       <Grid item xs={8}>
         <CoverGrid

@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 const TrackCard = props => {
   const { track } = props;
   return (
-    <Card style={{ position: "fixed" }}>
+    <Card style={{ position: "sticky", top: "20px" }}>
       <CardActionArea>
         <CardMedia component="img" image={track.imageUrl} title={track.name} />
         <CardContent style={{ width: 256 }}>

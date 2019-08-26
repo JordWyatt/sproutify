@@ -9,7 +9,7 @@ export const loadAudio = (url = "") => {
 export const getImageUrl = (item, size = 64) => {
   const images =
     item.type === "track" ? get(item, "album.images") : get(item, "images");
-  const image = images.filter(image => image.height === size)[0];
+  const image = images.filter(image => image.height === size)[0] || images[0];
   return image.url;
 };
 
@@ -31,5 +31,6 @@ export const trackTransform = track => ({
   id: track.id,
   name: track.name,
   artists: track.artists,
-  imageUrl: getImageUrl(track, 300)
+  imageUrl: getImageUrl(track, 300),
+  previewUrl: track.preview_url
 });
