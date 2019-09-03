@@ -24,4 +24,4 @@ TODO
 
 ## Acknowledgments
 
-- Inspired by [Discover Quicker](https://discoverquickly.com/) and [Dubolt](https://dubolt.com/)
+- Inspired by [Discover Quickly](https://discoverquickly.com/) and [Dubolt](https://dubolt.com/)
