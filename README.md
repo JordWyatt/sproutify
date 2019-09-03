@@ -17,11 +17,11 @@ TODO
 ## Built With
 
 - [React](https://reactjs.org/)
-- [MaterialUI](https://material-ui.com/)
+- [Material UI](https://material-ui.com/)
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/)
 - [Passport](https://passportjs.com/)
 
 ## Acknowledgments
 
-- Inspired by https://discoverquickly.com/ and https://dubolt.com/
+- Inspired by [Discover Quicker](https://discoverquickly.com/) and [Dubolt](https://dubolt.com/)
