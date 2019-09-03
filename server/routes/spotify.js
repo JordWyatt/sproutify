@@ -1,6 +1,7 @@
 const express = require("express");
 const SpotifyWebApi = require("spotify-web-api-node");
 const router = express.Router();
+const { hasDatePassed } = require("../utils");
 
 const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.SPOTIFY_REDIRECT_URI,
@@ -10,9 +11,20 @@ const spotifyApi = new SpotifyWebApi({
 
 const setAccessToken = (req, res, next) => {
   if (req.user) {
-    const { accessToken } = req.user;
-    spotifyApi.setAccessToken(accessToken);
-    next();
+    const { accessToken, accessTokenExpiry, refreshToken } = req.user;
+    if (hasDatePassed(accessTokenExpiry)) {
+      spotifyApi.setRefreshToken(refreshToken);
+      spotifyApi
+        .refreshAccessToken()
+        .then(data => {
+          spotifyApi.setAccessToken(data.body.access_token);
+          next();
+        })
+        .catch(e => console.log("Could not refresh access token", e));
+    } else {
+      spotifyApi.setAccessToken(accessToken);
+      next();
+    }
   } else {
     res.status(401).send("Please provide a valid access token");
   }
