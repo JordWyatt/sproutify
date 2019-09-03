@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes, { object } from "prop-types";
 import CoverGrid from "../CoverGrid/CoverGrid";
 import TrackCard from "../TrackCard/TrackCard";
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +9,7 @@ const styles = {
     paddingTop: "7.5px"
   }
 };
+
 const Explorer = props => (
   <div style={styles.container}>
     <Grid container>
@@ -26,3 +28,10 @@ const Explorer = props => (
 );
 
 export default Explorer;
+
+Explorer.propTypes = {
+  items: PropTypes.arrayOf(object),
+  onMouseOver: PropTypes.func,
+  onMouseOut: PropTypes.func,
+  selectedTrack: PropTypes.object
+};

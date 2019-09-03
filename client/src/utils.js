@@ -10,7 +10,7 @@ export const getImageUrl = (item, size = 64) => {
   const images =
     item.type === "track" ? get(item, "album.images") : get(item, "images");
   const image = images.filter(image => image.height === size)[0] || images[0];
-  return image.url;
+  return get(image, "url");
 };
 
 export const searchTransform = searchResults => {
