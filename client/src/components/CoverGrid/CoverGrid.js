@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import { getImageUrl } from "../../utils";
 const CoverGrid = props => (
@@ -6,9 +7,8 @@ const CoverGrid = props => (
     {props.items.map(x => {
       const imageUrl = getImageUrl(x);
       return (
-        <Grid item>
+        <Grid item key={imageUrl}>
           <img
-            key={imageUrl}
             alt=""
             src={imageUrl}
             onMouseOver={() => props.onMouseOver(x)}
@@ -23,3 +23,9 @@ const CoverGrid = props => (
 );
 
 export default CoverGrid;
+
+CoverGrid.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.object),
+  onMouseOver: PropTypes.func,
+  onMouseOut: PropTypes.func
+};

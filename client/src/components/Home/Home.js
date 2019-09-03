@@ -109,6 +109,7 @@ class Home extends Component {
           authenticated: false,
           error: "Failed to authenticate user"
         });
+        console.error(e);
       });
   }
 
@@ -130,7 +131,6 @@ class Home extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    debugger;
     const { playing, selectedTrack, audio, seedItems } = this.state;
 
     if (!playing && prevState.playing) {
