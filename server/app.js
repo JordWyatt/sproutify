@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const cors = require("cors");
-
+const dotenv = require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 3333;
+
+dotenv.config();
 
 require("./config/passport")(passport);
 
@@ -17,7 +19,9 @@ mongoose
 // Express session middleware
 app.use(
   session({
-    secret: "secret"
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false
   })
 );
 
