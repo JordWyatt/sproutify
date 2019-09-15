@@ -11,7 +11,7 @@ const styles = {
   }
 };
 
-export default function Header(props) {
+const Header = props => {
   const { user } = props;
   return (
     <div>
@@ -20,22 +20,24 @@ export default function Header(props) {
           <Typography type="title" variant="h6" style={styles.title}>
             Sproutify
           </Typography>
-          <Button
-            color="inherit"
-            onClick={() => {
-              window.location = `${process.env.REACT_APP_PROXY_URL}/auth/${
-                user ? "logout" : "spotify"
-              }`;
-            }}
-          >
-            {user ? "Logout" : "Connect with Spotify"}
-          </Button>
+          {user && (
+            <Button
+              color="inherit"
+              onClick={() => {
+                window.location = `${process.env.REACT_APP_PROXY_URL}/auth/logout`;
+              }}
+            >
+              Logout
+            </Button>
+          )}
         </ToolBar>
       </AppBar>
     </div>
   );
-}
+};
 
 Header.propTypes = {
   user: PropTypes.object
 };
+
+export default Header;

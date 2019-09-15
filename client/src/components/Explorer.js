@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes, { object } from "prop-types";
-import CoverGrid from "../CoverGrid/CoverGrid";
-import TrackCard from "../TrackCard/TrackCard";
+import CoverGrid from "./CoverGrid";
+import TrackCard from "./TrackCard";
 import Grid from "@material-ui/core/Grid";
 
 const styles = {

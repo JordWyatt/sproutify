@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
-import { getImageUrl } from "../../utils";
+import { getImageUrl } from "../utils";
 const CoverGrid = props => (
   <Grid container spacing={1}>
     {props.items.map(x => {
