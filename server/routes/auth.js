@@ -18,7 +18,7 @@ router.get("/login/success", (req, res) => {
       user: req.user
     });
   } else {
-    res.status(403).send();
+    res.sendStatus(403);
   }
 });
 
