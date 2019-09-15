@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import Home from "./components/Home/Home";
-import Login from "./components/Login/Login";
-import Header from "./components/Header/Header";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Header from "./components/Header";
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 

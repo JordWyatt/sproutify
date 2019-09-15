@@ -11,7 +11,7 @@ const styles = {
   }
 };
 
-export default function Header(props) {
+const Header = props => {
   const { user } = props;
   return (
     <div>
@@ -34,8 +34,10 @@ export default function Header(props) {
       </AppBar>
     </div>
   );
-}
+};
 
 Header.propTypes = {
   user: PropTypes.object
 };
+
+export default Header;

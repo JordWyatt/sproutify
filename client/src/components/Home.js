@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Container } from "@material-ui/core";
-import { searchTransform, trackTransform, loadAudio } from "../../utils";
-import Search from "../Search/Search";
-import Selections from "../Selections/Selections";
-import Explorer from "../Explorer/Explorer";
+import { searchTransform, trackTransform, loadAudio } from "../utils";
+import Search from "./Search";
+import Selections from "./Selections";
+import Explorer from "./Explorer";
 
 const SEARCH_TYPES = [
   {
