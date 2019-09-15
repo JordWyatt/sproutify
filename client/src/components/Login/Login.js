@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Button } from "@material-ui/core";
+import { Button, Box } from "@material-ui/core";
 
 class Login extends Component {
   constructor(props) {
@@ -8,18 +8,28 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-        <Container maxWidth="md">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        style={{ height: "100%" }}
+      >
+        <Box p={1}>
+          <h2> Discover new music with the help of old favorites. </h2>
+        </Box>
+        <Box p={1}>
           <Button
-            color="inherit"
+            variant="contained"
+            color="primary"
             onClick={() => {
               window.location = `${process.env.REACT_APP_PROXY_URL}/auth/spotify`;
             }}
           >
             Connect with Spotify
           </Button>
-        </Container>
-      </div>
+        </Box>
+      </Box>
     );
   }
 }
