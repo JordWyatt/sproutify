@@ -8,8 +8,6 @@ const scope = [
   "user-top-read"
 ];
 
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
-
 router.get("/spotify", passport.authenticate("spotify", { scope }));
 
 router.get("/login/success", (req, res) => {
@@ -20,7 +18,7 @@ router.get("/login/success", (req, res) => {
       user: req.user
     });
   } else {
-    res.redirect("failed");
+    res.status(403).send();
   }
 });
 
@@ -34,14 +32,14 @@ router.get("/login/failed", (req, res) => {
 router.get(
   "/spotify/redirect",
   passport.authenticate("spotify", {
-    successRedirect: CLIENT_HOME_PAGE_URL,
+    successRedirect: process.env.CLIENT_URL,
     failureRedirect: "/auth/login/failed"
   })
 );
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_HOME_PAGE_URL);
+  res.redirect(process.env.CLIENT_URL);
 });
 
 module.exports = router;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container } from "@material-ui/core";
 import { searchTransform, trackTransform, loadAudio } from "../../utils";
-import Header from "../Header/Header";
 import Search from "../Search/Search";
 import Selections from "../Selections/Selections";
 import Explorer from "../Explorer/Explorer";
@@ -90,29 +89,6 @@ class Home extends Component {
     });
   }
 
-  componentDidMount() {
-    fetch(`${process.env.REACT_APP_PROXY_URL}/auth/login/success`, {
-      credentials: "include"
-    })
-      .then(response => {
-        if (response.status === 200) return response.json();
-        throw new Error("failed to authenticate user");
-      })
-      .then(responseJson => {
-        this.setState({
-          authenticated: true,
-          user: responseJson.user
-        });
-      })
-      .catch(e => {
-        this.setState({
-          authenticated: false,
-          error: "Failed to authenticate user"
-        });
-        console.error(e);
-      });
-  }
-
   onMouseOverTrack(selectedTrack) {
     const { selectedTrack: existingSelectedTrack } = this.state;
     if (selectedTrack.id !== existingSelectedTrack.id) {
@@ -171,12 +147,11 @@ class Home extends Component {
       searchValue,
       recommendations,
       seedItems,
-      user,
       selectedTrack
     } = this.state;
+
     return (
-      <div className="App">
-        <Header user={user} />
+      <div>
         <Container maxWidth="lg">
           <Search
             value={searchValue}
