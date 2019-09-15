@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "8.9.2"
+    "node": "11.3.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
