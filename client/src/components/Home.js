@@ -46,12 +46,9 @@ class Home extends Component {
     const { endpoint: searchEndpoint } = this.state.selectedSearchType;
 
     if (value) {
-      fetch(
-        `${
-          process.env.REACT_APP_PROXY_URL
-        }/spotify/${searchEndpoint}?q=${encodeURI(value)}`,
-        { credentials: "include" }
-      )
+      fetch(`/spotify/${searchEndpoint}?q=${encodeURI(value)}`, {
+        credentials: "include"
+      })
         .then(response => response.json())
         .then(searchResults =>
           this.setState({
@@ -124,9 +121,7 @@ class Home extends Component {
         .map(x => x.id);
 
       fetch(
-        `${
-          process.env.REACT_APP_PROXY_URL
-        }/spotify/recommendations?seed_artists=${encodeURI(
+        `/spotify/recommendations?seed_artists=${encodeURI(
           seedArtists
         )}&seed_tracks=${encodeURI(seedTracks)}`,
         { credentials: "include" }

@@ -17,7 +17,7 @@ const Login = () => (
         variant="contained"
         color="primary"
         onClick={() => {
-          window.location = `${process.env.REACT_APP_PROXY_URL}/auth/spotify`;
+          window.location = `${process.env.REACT_APP_SERVER_URL}/auth/spotify`;
         }}
       >
         Connect with Spotify

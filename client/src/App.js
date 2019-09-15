@@ -44,7 +44,7 @@ class App extends Component {
   }
 
   getUser() {
-    fetch(`${process.env.REACT_APP_PROXY_URL}/auth/login/success`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login/success`, {
       credentials: "include"
     })
       .then(response => {

@@ -24,7 +24,7 @@ const Header = props => {
             <Button
               color="inherit"
               onClick={() => {
-                window.location = `${process.env.REACT_APP_PROXY_URL}/auth/logout`;
+                window.location = `${process.env.REACT_APP_SERVER_URL}/auth/logout`;
               }}
             >
               Logout
